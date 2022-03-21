@@ -1,23 +1,50 @@
-import logo from './logo.svg';
 import './App.css';
+import Header from './components/header/Header';
+import MyStake from './components/MyStake/MyStake';
+import StakeHistory from './components/StakeHistory/StakeHistory';
 
 function App() {
+  const stakeData = [
+    {
+      amount: 1000,
+      account: "0xE428Db9A3B47046acb020B8B5a5B29b8792a1415",
+      time: "25, jun 2021"
+    },
+    {
+      amount: 1000,
+      account: "0xE428Db9A3B47046acb020B8B5a5B29b8792a1415",
+      time: "25, jun 2021"
+    },
+    {
+      amount: 1000,
+      account: "0xE428Db9A3B47046acb020B8B5a5B29b8792a1415",
+      time: "25, jun 2021"
+    },
+    {
+      amount: 1000,
+      account: "0xE428Db9A3B47046acb020B8B5a5B29b8792a1415",
+      time: "25, jun 2021"
+    },
+    {
+      amount: 1000,
+      account: "0xE428Db9A3B47046acb020B8B5a5B29b8792a1415",
+      time: "25, jun 2021"
+    },
+    {
+      amount: 1000,
+      account: "0xE428Db9A3B47046acb020B8B5a5B29b8792a1415",
+      time: "25, jun 2021"
+    }
+  ]
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+      <main className='main'>
+        <MyStake stakeData = {stakeData} />
+        <StakeHistory
+          stakeData = {stakeData}
+        />
+      </main>
     </div>
   );
 }

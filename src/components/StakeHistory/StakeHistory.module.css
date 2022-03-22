@@ -23,19 +23,20 @@
     
 }
 
-.table_row {
-    background-color: rgb(209, 206, 206);
-}
-
-.table_row:nth-child(even) {
-    background-color: rgb(240, 239, 239);  
-}
-
 .table_head_data {
     padding: 1rem;
 }
 
 .table_data {
     padding: 1rem;
+}
+
+.stake_style {
+    background-color: rgb(209, 206, 206);
+}
+
+
+.unstake_style {
+    background-color: rgb(240, 239, 239);
 }
 

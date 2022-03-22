@@ -1,5 +1,8 @@
 import React from 'react'
+import { addressShortner, formatDate } from '../../utils/helpers';
 import Styles from './StakeHistory.module.css';
+import clsx from 'clsx';
+
 
 const StakeHistory = ({stakeData}) => {
 
@@ -11,12 +14,13 @@ const StakeHistory = ({stakeData}) => {
                 <th className={Styles.table_head_data}>S/N</th>
                 <th className={Styles.table_head_data}>Amount Staked</th>
                 <th className={Styles.table_head_data}>Account</th>
+                <th className={Styles.table_head_data}>Action</th>
                 <th className={Styles.table_head_data}>Time</th>
               </tr>
           </thead>
           <tbody>
             {stakeData.map((item, index) => {
-              return <tr className={Styles.table_row}>
+              return <tr key={index} className={clsx({[Styles.table_row]: true, [Styles.unstake_style]: item.type === "unstake", [Styles.stake_style]: item.type === "stake"})}>
                 <td className= {Styles.table_data}>
                   {index + 1}
                 </td>
@@ -24,10 +28,13 @@ const StakeHistory = ({stakeData}) => {
                   {item.amount}
                 </td>
                 <td className= {Styles.table_data}>
-                  {item.account}
+                  {addressShortner(item.account, false)}
                 </td>
                 <td className= {Styles.table_data}>
-                  {item.time}
+                  {item.type}
+                </td>
+                <td className= {Styles.table_data}>
+                  {formatDate(item.time)}
                 </td>
               </tr>
             })}

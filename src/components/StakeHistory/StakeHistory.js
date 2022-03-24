@@ -2,7 +2,7 @@ import React from 'react'
 import { addressShortner, formatDate } from '../../utils/helpers';
 import Styles from './StakeHistory.module.css';
 import clsx from 'clsx';
-
+import { utils } from 'ethers';
 
 const StakeHistory = ({stakeData}) => {
 
@@ -25,7 +25,7 @@ const StakeHistory = ({stakeData}) => {
                   {index + 1}
                 </td>
                 <td className= {Styles.table_data}>
-                  {item.amount}
+                  {Number(utils.formatUnits(item.amount, 18)).toFixed(4)}
                 </td>
                 <td className= {Styles.table_data}>
                   {addressShortner(item.account, false)}

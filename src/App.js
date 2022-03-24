@@ -10,10 +10,10 @@ const BRTTokenAddress = "0x169E82570feAc981780F3C48Ee9f05CED1328e1b";
 
 function App() {
 
-  // a flag for knowing whether or not a user is connected
+  // a flag for keeping track of whether or not a user is connected
   const [connected, setConnected] = useState(false);
 
-  // user account details
+  // connected user details
   const [userInfo, setUserInfo] = useState({
     matic_balance: 0,
     token_balance: 0,
@@ -27,7 +27,7 @@ function App() {
   // the amount of reward the user has accumulate on his stake
   const [rewardAmount, setRewardAmount] = useState(null)
 
-  // the value of token the user is willing to state
+  // the value of token the user wants to stake
   const [stakeInput, setStakeInput] = useState("");
 
   // the value of token the user wants to withdraw
@@ -49,7 +49,7 @@ function App() {
     }
   }
 
-  // handler for when a switches from one account to another or completely disconnected
+  // handler for when user switch from one account to another or completely disconnected
   const handleAccountChanged = async (accounts) => {
     if(!!accounts.length) {
       const networkId = await window.ethereum.request({method: "eth_chainId"})
@@ -83,7 +83,7 @@ function App() {
         address: null
       })
       
-      return alert("You are connected to the wrong network, please switch to polygn mumbai")
+      return alert("You are connected to the wrong network, please switch to polygon mumbai")
     }else {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const accounts = await provider.listAccounts();
@@ -98,7 +98,7 @@ function App() {
       }
   }
 
-  // an handler for eagerly connect user and fetching their data
+  // an handler to eagerly connect user and fetch their data
   const eagerConnect = async () => {
     const networkId = await window.ethereum.request({method: "eth_chainId"})
     if(Number(networkId) !== 80001) return
@@ -114,10 +114,12 @@ function App() {
       setConnected(true)
   }
 
+  // a function for fetching necesary data from the contract and also listening for contract event when the page loads
   const init = async () => {
     const customProvider = new ethers.providers.JsonRpcProvider(process.env.REACT_APP_RPC_URL)
     const BRTContractInstance = new Contract(BRTTokenAddress, BRTTokenAbi, customProvider);
     const stakeHistory = await BRTContractInstance.queryFilter("stakeEvent");
+
     const history = [];
     
     stakeHistory.forEach(data => {
@@ -149,10 +151,9 @@ function App() {
 
     init()
     if(!window.ethereum) return;
+    // binding handlers to wallet events we care about
     window.ethereum.on("connect", eagerConnect)
-    // binding handler to account changed event
     window.ethereum.on("accountsChanged", handleAccountChanged)
-
     window.ethereum.on('chainChanged', handleChainChanged);
   }, [])
   
@@ -165,6 +166,7 @@ function App() {
     }
   }
 
+  // onchange handler for handling both stake and unstake input value
   const onChangeInput = ({target}) => {
     switch (target.id) {
       case "stake":
@@ -180,6 +182,7 @@ function App() {
     }
   }
 
+  // A function that handles staking
   const onClickStake = async (e) => {
     e.preventDefault()
     if(stakeInput < 0) return alert("you cannot stake less than 0 BRT")

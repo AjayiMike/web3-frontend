@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import React from 'react'
 import Card from './Card/Card'
 import Styles from './MyStake.module.css'
@@ -9,7 +10,8 @@ const MyStake = ({
   onClickStake, 
   onClickWithdraw,
   rewardAmount,
-  stakeAmount
+  stakeAmount,
+  connected
 }) => {
   return (
     <div className={Styles.root}>
@@ -35,7 +37,9 @@ const MyStake = ({
               onChange = {onChangeInput}
               id = "stake"
             />
-            <button type='submit' className={Styles.stake_btn}>Stake</button>
+            <button type='submit' className={clsx({[Styles.stake_btn]: true, [Styles.btn_diabled]: !connected})}
+              disabled = {!connected}
+            >Stake</button>
           </form>
 
           <form onSubmit = {onClickWithdraw} className={Styles.form} >
@@ -47,7 +51,10 @@ const MyStake = ({
               onChange = {onChangeInput}
               id = "unstake"
             />
-            <button type="submit" className={Styles.unstake_btn}>Unstake</button>
+            <button type="submit"
+            className={clsx({[Styles.unstake_btn]: true, [Styles.btn_diabled]: !connected})}
+            disabled = {!connected}
+            >Unstake</button>
           </form>
         </div>
     </div>

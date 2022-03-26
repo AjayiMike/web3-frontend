@@ -43,6 +43,7 @@ function App() {
       const userMaticBal = await provider.getBalance(address);
       const BRTContractInstance = new Contract(BRTTokenAddress, BRTTokenAbi, provider);
       const userBRTBalance = await BRTContractInstance.balanceOf(address)
+      await getStake()
       return {userBRTBalance, userMaticBal}
     }catch(err) {
       console.log(err)
@@ -193,19 +194,66 @@ function App() {
     const weiValue = utils.parseEther(stakeInput);
     const stakeTx = await BRTContractInstance.stakeBRT(weiValue);
 
-    const stakeTxHash = await provider.getTransaction(stakeTx.hash)
+    // const stakeTxHash = await provider.getTransaction(stakeTx.hash)
     const response = await stakeTx.wait();
 
-    const address = response.events[1].args[0]
-    const amountStaked = response.events[1].args[1].toString()
-    const time = response.events[1].args[2].toString()
-
+    // const address = response.events[1].args[0]
+    // const amountStaked = response.events[1].args[1].toString()
+    // const time = response.events[1].args[2].toString()
+    // const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const accounts = await provider.listAccounts();
+    if(!accounts.length) return
+    const accountDetails = await getAccountDetails(accounts[0])
+      setUserInfo({
+        matic_balance: accountDetails.userMaticBal,
+        token_balance: accountDetails.userBRTBalance,
+        address: accounts[0]
+      })
+      setConnected(true)
+      setStakeInput("")
     
   }
 
-  const onClickWithdraw = (e) => {
+  const getStake = async() =>{
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const BRTContractInstance = new Contract(BRTTokenAddress, BRTTokenAbi,signer);
+    const stake =  await BRTContractInstance.myStake()
+   const formatunit = utils.formatUnits(stake.stakeAmount,18)
+   setStakeAmount(formatunit)
+  }
+
+
+
+
+  const onClickWithdraw = async(e) => {
+ 
     e.preventDefault()
-    console.log("unstaking...........", withdrawInput);
+
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const BRTContractInstance = new Contract(BRTTokenAddress, BRTTokenAbi, signer);
+    const weiValue = utils.parseEther(withdrawInput);
+    const stakeTx = await BRTContractInstance.withdraw(weiValue);
+
+    // const stakeTxHash = await provider.getTransaction(stakeTx.hash)
+    const response = await stakeTx.wait();
+
+    // const address = response.events[1].args[0]
+    // const amountStaked = response.events[1].args[1].toString()
+    // const time = response.events[1].args[2].toString()
+    // const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const accounts = await provider.listAccounts();
+    if(!accounts.length) return
+    const accountDetails = await getAccountDetails(accounts[0])
+      setUserInfo({
+        matic_balance: accountDetails.userMaticBal,
+        token_balance: accountDetails.userBRTBalance,
+        address: accounts[0]
+      })
+      setConnected(true)
+      setWithdrawInput("")
+    
   }
 
   

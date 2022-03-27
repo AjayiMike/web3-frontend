@@ -56,3 +56,19 @@
     background-color: rgb(168, 164, 164);
     cursor: not-allowed;;
 }
+
+.card{
+    background: #fafafa;
+    margin-top: 2rem;
+    max-width: 50%;
+    border-radius: 10px;
+    padding: 1rem .75rem;
+}
+.cc{
+    margin-bottom: 1rem;
+}
+
+.para{
+    max-width: 100%;
+    word-break: break-all;
+}

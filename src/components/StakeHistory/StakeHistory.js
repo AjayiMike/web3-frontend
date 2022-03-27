@@ -5,8 +5,8 @@ import clsx from 'clsx';
 import { utils } from 'ethers';
 
 const StakeHistory = ({stakeData}) => {
-
   return (
+    <div className={Styles.wrapper}>
     <div className={Styles.root}>
         <table className= {Styles.table}>
           <thead className = {Styles.table_header}>
@@ -40,6 +40,7 @@ const StakeHistory = ({stakeData}) => {
             })}
           </tbody>
         </table>
+    </div>
     </div>
   )
 }

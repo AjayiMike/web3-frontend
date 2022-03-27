@@ -3,16 +3,23 @@ import React from 'react'
 import Card from './Card/Card'
 import Styles from './MyStake.module.css'
 
+
 const MyStake = ({
   withdrawInput, 
   stakeInput, 
+  addressInput,
+  onClickAddress,
   onChangeInput, 
   onClickStake, 
+  stakeDetails,
   onClickWithdraw,
   rewardAmount,
   stakeAmount,
   connected
 }) => {
+  
+  const {amount, address,time} = stakeDetails;
+  console.log(amount, address,time);
   return (
     <div className={Styles.root}>
         <h2 className={Styles.heading}>My stake</h2>
@@ -56,6 +63,34 @@ const MyStake = ({
             disabled = {!connected}
             >Unstake</button>
           </form>
+          <form onSubmit = {onClickAddress} className={Styles.form} >
+            <input 
+              type = "text" 
+              placeholder="Search Detail of staker" 
+              className={Styles.input}
+              value = {addressInput}
+              onChange = {onChangeInput}
+              id ="address"
+            />
+            <button type="submit"
+            className={clsx({[Styles.stake_btn]: true, })}
+            >Search</button>
+          </form>
+        </div>
+        <div className={Styles.card}>
+          <h4 className={Styles.cc}>Get Details of staker</h4>
+          <div className={Styles.cc}>
+            <h4>Address Staker</h4>
+          <p className={Styles.para}>{address}</p>
+          </div>
+           <div className={Styles.cc}>
+            <h4>Amount Staked</h4>
+          <p className={Styles.para}>{amount} {`${amount? `BRT` : 0.0}`}</p>
+          </div>
+          <div className={Styles.cc}>
+            <h4>Time Staked</h4>
+          <p className={Styles.para}>{time}</p>
+          </div>
         </div>
     </div>
   )

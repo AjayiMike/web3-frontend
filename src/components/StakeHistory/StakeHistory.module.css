@@ -40,3 +40,10 @@
     background-color: rgb(240, 239, 239);
 }
 
+.wrapper{
+    max-height: 100vh;
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
